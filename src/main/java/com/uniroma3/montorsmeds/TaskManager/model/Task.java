@@ -26,10 +26,8 @@ public class Task {
 	@Column(nullable = false)
 	private String descrizione;
 
-	@Column
 	private LocalDateTime dataCreazione;
 
-	@Column
 	private LocalDateTime dataUltimoAggiornamento;
 
 	@ManyToOne
@@ -38,16 +36,19 @@ public class Task {
 
 	@ManyToOne
 	private Project project;
+	
+	private boolean completed;
 
 	public Task() {
 
 	}
 
-	public Task(String nome, String descrizione, User user, Project project) {
+	public Task(String nome, String descrizione, User user, Project project, boolean completed) {
 		this.nome = nome;
 		this.descrizione = descrizione;
 		this.user = user;
 		this.project = project;
+		this.setCompleted(completed);
 	}
 
 
@@ -114,6 +115,14 @@ public class Task {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
 	}
 
 	@PrePersist

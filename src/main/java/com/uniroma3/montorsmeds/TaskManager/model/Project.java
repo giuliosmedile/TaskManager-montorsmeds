@@ -30,23 +30,20 @@ public class Project {
 	@Column(nullable = false)
 	private String nome;
 	
-	@Column
 	private LocalDateTime dataCreazione;
 	
-	@Column
 	private LocalDateTime dataUltimoAggiornamento;
 	
 	// è lazy perchè non voglio che si aggiorni quando persisto
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Column(nullable = false)
 	private User proprietario;
-	
-	// è eager perchè aggiorno quando persisto
-	@ManyToMany(fetch = FetchType.EAGER)
+
+	@ManyToMany
 	private List<User> utentiCondivisi;
 	
 	// è eager perchè aggiorno quando persisto	
-	@OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
+	@OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
 	@JoinColumn(name = "project_id")
 	private List<Task> tasks;
 	
@@ -61,6 +58,21 @@ public class Project {
 		this.proprietario = proprietario;
 	}
 
+	public void addMember(User user) {
+		this.utentiCondivisi.add(user);
+	}
+	
+	public void removeMember(User user) {
+		this.utentiCondivisi.remove(user);
+	}
+	
+	public void addTask(Task task) {
+		this.tasks.add(task);
+	}
+	
+	public void removeTask(Task task) {
+		this.tasks.remove(task);
+	}
 	// ==================================================================
 	// ======================== GETTER E SETTER =========================
 	// ==================================================================

@@ -36,14 +36,13 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
-	@Column
 	private LocalDateTime dataCreazione;
 
-	@OneToMany(cascade = {CascadeType.REMOVE})
+	@OneToMany(mappedBy = "proprietario", cascade = {CascadeType.REMOVE})
 	@JoinColumn(name = "user_id")
 	private List<Project> ownedProjects;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "utentiCondivisi")
 	private List<Project> visibleProjects;
 
 	public User() {
