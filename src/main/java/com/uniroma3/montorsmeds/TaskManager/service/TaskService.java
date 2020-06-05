@@ -20,6 +20,7 @@ public class TaskService {
 	@Transactional
 	public Task saveTask(Task task) {
 		return this.taskRepository.save(task);
+		
 	}
 	
 //  rimuovi una task 
