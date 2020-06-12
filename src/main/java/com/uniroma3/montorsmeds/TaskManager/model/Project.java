@@ -36,7 +36,7 @@ public class Project {
 	
 	// è lazy perchè non voglio che si aggiorni quando persisto
 	@ManyToOne(fetch = FetchType.LAZY)
-	@Column(nullable = false)
+	//column(nullable = false)
 	private User proprietario;
 
 	@ManyToMany
@@ -44,7 +44,7 @@ public class Project {
 	
 	// è eager perchè aggiorno quando persisto	
 	@OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
-	@JoinColumn(name = "project_id")
+	//@JoinColumn(name = "project_id")
 	private List<Task> tasks;
 	
 	public Project() {

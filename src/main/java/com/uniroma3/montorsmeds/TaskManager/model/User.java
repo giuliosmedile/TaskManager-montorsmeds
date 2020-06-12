@@ -39,7 +39,7 @@ public class User {
 	private LocalDateTime dataCreazione;
 
 	@OneToMany(mappedBy = "proprietario", cascade = {CascadeType.REMOVE})
-	@JoinColumn(name = "user_id")
+	//@JoinColumn(name = "user_id")
 	private List<Project> ownedProjects;
 
 	@ManyToMany(mappedBy = "utentiCondivisi")

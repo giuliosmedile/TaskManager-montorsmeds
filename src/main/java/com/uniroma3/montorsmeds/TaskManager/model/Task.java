@@ -31,7 +31,7 @@ public class Task {
 	private LocalDateTime dataUltimoAggiornamento;
 
 	@ManyToOne
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	private User user;
 
 	@ManyToOne
