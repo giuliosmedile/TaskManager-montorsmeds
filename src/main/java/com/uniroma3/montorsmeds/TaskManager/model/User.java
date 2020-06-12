@@ -50,16 +50,12 @@ public class User {
 		this.visibleProjects = new ArrayList<>();
 	}
 
-	public User(String nome, String cognome, String username, String password, LocalDateTime dataCreazione,
-			List<Project> ownedProjects, List<Project> visibleProjects) {
+	public User(String nome, String cognome, String username, String password) {
 		this();
 		this.nome = nome;
 		this.cognome = cognome;
 		this.username = username;
 		this.password = password;
-		this.dataCreazione = dataCreazione;
-		this.ownedProjects = ownedProjects;
-		this.visibleProjects = visibleProjects;
 	}
 
 	public Long getId() {

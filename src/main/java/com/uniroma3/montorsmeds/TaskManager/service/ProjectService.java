@@ -37,7 +37,7 @@ public class ProjectService {
 //  per ottenere il progetto dal nome del progetto e il nome del proprietario
 	@Transactional
 	public Project getProject(String name, String owner) {
-		Optional<Project> result = this.projectRepository.findByNameAndOwner(name, owner);
+		Optional<Project> result = this.projectRepository.getProject(name, owner);
 		return result.orElse(null);
 	}
 //  aggiunge un membro alla lista degli utenti condivisi
