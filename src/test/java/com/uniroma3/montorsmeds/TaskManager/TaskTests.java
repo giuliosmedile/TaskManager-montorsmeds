@@ -40,12 +40,13 @@ class TaskTests {
 		Project project = new Project("ProgettoBello", user);
 		Task task = new Task("Task", "Task bellissima", user, project);
 		
-		task = taskService.saveTask(task);
+		taskService.saveTask(task);
+		task = taskService.getTask(1);
 		
 		assertEquals(task.getNome(), "Task");
 		assertEquals(task.getUser(), user);
 		assertEquals(task.getProject(), project);
-		assertEquals(task.getId(), 1);
+		assertEquals(task.getId().longValue(), 1L);
 	}
 	
 	@Test
