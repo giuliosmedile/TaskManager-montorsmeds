@@ -9,57 +9,59 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.Before;
 
+import com.uniroma3.montorsmeds.TaskManager.model.Project;
+import com.uniroma3.montorsmeds.TaskManager.model.Task;
 import com.uniroma3.montorsmeds.TaskManager.model.User;
 import com.uniroma3.montorsmeds.TaskManager.repository.ProjectRepository;
 import com.uniroma3.montorsmeds.TaskManager.repository.TaskRepository;
-import com.uniroma3.montorsmeds.TaskManager.repository.UserRepository;
 import com.uniroma3.montorsmeds.TaskManager.service.ProjectService;
 import com.uniroma3.montorsmeds.TaskManager.service.TaskService;
-import com.uniroma3.montorsmeds.TaskManager.service.UserService;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class TaskManagerApplicationTests {
-
-	@Autowired
-	private ProjectRepository projectRepository;
-	
-	@Autowired
-	private UserRepository userRepository;
+class TaskTests {
 	
 	@Autowired
 	private TaskRepository taskRepository;
 	
 	@Autowired
-	private ProjectService projectService;
-
-	@Autowired
-	private UserService userService;
-
-	@Autowired
 	private TaskService taskService;
-	
+
 	@Before
 	public void deleteAll() {
 		System.out.println("Deleting all data in db...");
-		projectRepository.deleteAll();
-		userRepository.deleteAll();
 		taskRepository.deleteAll();
 		System.out.println("Fattoh!");
 	}
 
 	@Test
-	public void updateUserTest() {
-		User user = new User("Silvia", "Montorselli", "Fyu11", "sonobellissima");
-		user = userService.saveUser(user);
-		assertEquals("Silvia", user.getNome());
-		assertEquals("Montorselli", user.getCognome());
-		assertEquals("Fyu11", user.getUsername());
-		assertEquals(1, user.getId());		
+	public void aggiungiTaskTest() {
+		User user = new User("Giulio", "Smedile", "smeds", "lacipolla");
+		Project project = new Project("ProgettoBello", user);
+		Task task = new Task("Task", "Task bellissima", user, project);
+		
+		task = taskService.saveTask(task);
+		
+		assertEquals(task.getNome(), "Task");
+		assertEquals(task.getUser(), user);
+		assertEquals(task.getProject(), project);
+		assertEquals(task.getId(), 1);
 	}
 	
 	@Test
-	void contextLoads() {
+	public void setCompletedTest() {
+		User user = new User("Giulio", "Smedile", "smeds", "lacipolla");
+		Project project = new Project("ProgettoBello", user);
+		Task task = new Task("Task", "Task bellissima", user, project);
+		
+		taskService.setCompleted(task);
+		
+		assertTrue(taskService.getTask(1).isCompleted());
+		
 	}
+	
+	
+	
+
 
 }

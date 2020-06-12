@@ -43,12 +43,12 @@ public class Task {
 
 	}
 
-	public Task(String nome, String descrizione, User user, Project project, boolean completed) {
+	public Task(String nome, String descrizione, User user, Project project) {
 		this.nome = nome;
 		this.descrizione = descrizione;
 		this.user = user;
 		this.project = project;
-		this.setCompleted(completed);
+		this.setCompleted(false);
 	}
 
 
