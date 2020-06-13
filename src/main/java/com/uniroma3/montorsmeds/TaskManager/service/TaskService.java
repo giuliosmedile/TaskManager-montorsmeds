@@ -38,7 +38,7 @@ public class TaskService {
 //  settaggio task come completata
 	@Transactional 
 	public void setCompleted(Task task) {
-		task.setCompleted(true);
+		task.setCompleted();
 		this.taskRepository.save(task);
 	}
 

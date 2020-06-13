@@ -14,15 +14,29 @@ import com.uniroma3.montorsmeds.TaskManager.model.Task;
 import com.uniroma3.montorsmeds.TaskManager.model.User;
 import com.uniroma3.montorsmeds.TaskManager.repository.ProjectRepository;
 import com.uniroma3.montorsmeds.TaskManager.repository.TaskRepository;
+import com.uniroma3.montorsmeds.TaskManager.repository.UserRepository;
 import com.uniroma3.montorsmeds.TaskManager.service.ProjectService;
 import com.uniroma3.montorsmeds.TaskManager.service.TaskService;
+import com.uniroma3.montorsmeds.TaskManager.service.UserService;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 class TaskTests {
 	
+	@Autowired 
+	private UserRepository userRepository;
+	
+	@Autowired 
+	private ProjectRepository projectRepository;
+	
 	@Autowired
 	private TaskRepository taskRepository;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private ProjectService projectService;
 	
 	@Autowired
 	private TaskService taskService;
@@ -30,6 +44,8 @@ class TaskTests {
 	@Before
 	public void deleteAll() {
 		System.out.println("Deleting all data in db...");
+		userRepository.deleteAll();
+		projectRepository.deleteAll();
 		taskRepository.deleteAll();
 		System.out.println("Fattoh!");
 	}
@@ -40,8 +56,9 @@ class TaskTests {
 		Project project = new Project("ProgettoBello", user);
 		Task task = new Task("Task", "Task bellissima", user, project);
 		
-		taskService.saveTask(task);
-		task = taskService.getTask(1);
+		user = userService.saveUser(user);
+		project = projectService.saveProject(project);
+		task = taskService.saveTask(task);
 		
 		assertEquals(task.getNome(), "Task");
 		assertEquals(task.getUser(), user);
@@ -55,8 +72,11 @@ class TaskTests {
 		Project project = new Project("ProgettoBello", user);
 		Task task = new Task("Task", "Task bellissima", user, project);
 		
+		user = userService.saveUser(user);
+		project = projectService.saveProject(project);
 		taskService.setCompleted(task);
 		
+		assertNotNull(taskService.getTask(1));
 		assertTrue(taskService.getTask(1).isCompleted());
 		
 	}

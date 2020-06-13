@@ -17,7 +17,7 @@ import javax.persistence.Table;
 public class Task {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable = false)
@@ -48,7 +48,7 @@ public class Task {
 		this.descrizione = descrizione;
 		this.user = user;
 		this.project = project;
-		this.setCompleted(false);
+		this.completed = false;
 	}
 
 
@@ -121,8 +121,8 @@ public class Task {
 		return completed;
 	}
 
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
+	public void setCompleted() {
+		this.completed = true;
 	}
 
 	@PrePersist
