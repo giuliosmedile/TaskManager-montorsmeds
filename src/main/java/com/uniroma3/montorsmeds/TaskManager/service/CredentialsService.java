@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.uniroma3.montorsmeds.TaskManager.model.Credentials;
@@ -15,6 +16,9 @@ import com.uniroma3.montorsmeds.TaskManager.repository.CredentialsRepository;
 
 @Service 
 public class CredentialsService {
+	
+	@Autowired
+	protected PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	protected CredentialsRepository credentialsRepository;
@@ -34,6 +38,7 @@ public class CredentialsService {
 	@Transactional
 	public Credentials saveCredentials(Credentials credentials) {
 		credentials.setRole(Credentials.DEFAULT_ROLE);
+		credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
 		return this.credentialsRepository.save(credentials);
 	}
 	
