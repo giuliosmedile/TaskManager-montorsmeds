@@ -1,4 +1,7 @@
 package com.uniroma3.montorsmeds.TaskManager;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,7 @@ class TaskTests {
 	private TaskService taskService;
 
 	@Before
+	@AfterEach
 	public void deleteAll() {
 		System.out.println("Deleting all data in db...");
 		userRepository.deleteAll();
@@ -49,12 +53,14 @@ class TaskTests {
 		taskRepository.deleteAll();
 		System.out.println("Fattoh!");
 	}
+	
+	
 
 	@Test
 	public void aggiungiTaskTest() {
-		User user = new User("Giulio", "Smedile", "smeds", "lacipolla");
-		Project project = new Project("ProgettoBello", user);
-		Task task = new Task("Task", "Task bellissima", user, project);
+		User user = new User("Silvia", "Montorselli", "Fyu11", "ciaone");
+		Project project = new Project("ProgettoBrutto", user);
+		Task task = new Task("Task", "Task bruttissima", user, project);
 		
 		user = userService.saveUser(user);
 		project = projectService.saveProject(project);
@@ -74,10 +80,16 @@ class TaskTests {
 		
 		user = userService.saveUser(user);
 		project = projectService.saveProject(project);
-		taskService.setCompleted(task);
+		task = taskService.saveTask(task);
 		
-		assertNotNull(taskService.getTask(1));
-		assertTrue(taskService.getTask(1).isCompleted());
+		long id = task.getId();
+		
+		assertFalse(taskService.getTask(id).isCompleted());
+		
+		task = taskService.setCompleted(task);
+		
+		assertNotNull(taskService.getTask(id));
+		assertTrue(taskService.getTask(id).isCompleted());
 		
 	}
 	

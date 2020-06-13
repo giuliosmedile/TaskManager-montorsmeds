@@ -39,7 +39,7 @@ public class Project {
 	//column(nullable = false)
 	private User proprietario;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<User> utentiCondivisi;
 	
 	// è eager perchè aggiorno quando persisto	

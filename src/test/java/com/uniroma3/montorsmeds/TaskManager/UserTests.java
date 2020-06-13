@@ -1,4 +1,6 @@
 package com.uniroma3.montorsmeds.TaskManager;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ class UserTests {
 	private UserService userService;
 
 	@Before
+	@AfterEach
 	public void deleteAll() {
 		System.out.println("Deleting all data in db...");
 		userRepository.deleteAll();
@@ -39,12 +42,11 @@ class UserTests {
 		assertEquals("Silvia", user.getNome());
 		assertEquals("Montorselli", user.getCognome());
 		assertEquals("Fyu11", user.getUsername());
-		assertEquals(1, user.getId());		
 	}
 	
 	@Test
 	public void updateUserTest() {
-		User user = new User("Silvia", "Montorselli", "Fyu11", "sonobellissima");
+		User user = new User("Roberto", "Rossi", "mago99", "ciaone");
 		user = userService.saveUser(user);
 		user.setNome("Giulio");
 		user.setCognome("Smedile");
@@ -55,25 +57,27 @@ class UserTests {
 	
 	@Test
 	public void getAllUsersTest() {
-		User user1 = new User("Silvia", "Montorselli", "Fyu11", "sonobellissima");
-		User user2 = new User("Giulio", "Smedile", "smeds", "lacipolla");
+		User user1 = new User("Mario", "Verdi", "mverdi", "password123");
+		User user2 = new User("Riccardo", "Marroni", "pollo", "padella");
 		
-		userService.saveUser(user1);
-		userService.saveUser(user2);
+		user1 = userService.saveUser(user1);
+		user2 = userService.saveUser(user2);
 		
 		List<User> allUsers = userService.getAllUsers();
-		assertEquals(allUsers.get(0).getNome(), "Silvia");
-		assertEquals(allUsers.get(1).getNome(), "Giulio");		
+		assertEquals(allUsers.get(0).getNome(), "Mario");
+		assertEquals(allUsers.get(1).getNome(), "Riccardo");		
 	}
 	
 	public void getUserById() {
-		User user1 = new User("Silvia", "Montorselli", "Fyu11", "sonobellissima");
-		User user2 = new User("Giulio", "Smedile", "smeds", "lacipolla");
+		User user1 = new User("Francesco", "Antonelli", "fanto", "perfezione");
+		User user2 = new User("Giacomo", "Scavalcasedili", "lunotto", "123123");
 		
-		userService.saveUser(user1);
-		userService.saveUser(user2);
+		user1 = userService.saveUser(user1);
+		user2 = userService.saveUser(user2);
 		
-		assertEquals(userService.getUser(1), user1);
+		long id = user1.getId();
+		
+		assertEquals(userService.getUser(id).getNome(), user1.getNome());
 	}
 	
 
