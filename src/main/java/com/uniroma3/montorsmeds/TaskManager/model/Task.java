@@ -26,8 +26,10 @@ public class Task {
 	@Column(nullable = false)
 	private String descrizione;
 
+	@Column(updatable = false, nullable = false)
 	private LocalDateTime dataCreazione;
 
+	@Column(nullable = false)
 	private LocalDateTime dataUltimoAggiornamento;
 
 	@ManyToOne

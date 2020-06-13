@@ -37,16 +37,15 @@ class UserTests {
 
 	@Test
 	public void createUserTest() {
-		User user = new User("Silvia", "Montorselli", "Fyu11", "sonobellissima");
+		User user = new User("Silvia", "Montorselli");
 		user = userService.saveUser(user);
 		assertEquals("Silvia", user.getNome());
 		assertEquals("Montorselli", user.getCognome());
-		assertEquals("Fyu11", user.getUsername());
 	}
 	
 	@Test
 	public void updateUserTest() {
-		User user = new User("Roberto", "Rossi", "mago99", "ciaone");
+		User user = new User("Roberto", "Rossi");
 		user = userService.saveUser(user);
 		user.setNome("Giulio");
 		user.setCognome("Smedile");
@@ -57,8 +56,8 @@ class UserTests {
 	
 	@Test
 	public void getAllUsersTest() {
-		User user1 = new User("Mario", "Verdi", "mverdi", "password123");
-		User user2 = new User("Riccardo", "Marroni", "pollo", "padella");
+		User user1 = new User("Mario", "Verdi");
+		User user2 = new User("Riccardo", "Marroni");
 		
 		user1 = userService.saveUser(user1);
 		user2 = userService.saveUser(user2);
@@ -69,8 +68,8 @@ class UserTests {
 	}
 	
 	public void getUserById() {
-		User user1 = new User("Francesco", "Antonelli", "fanto", "perfezione");
-		User user2 = new User("Giacomo", "Scavalcasedili", "lunotto", "123123");
+		User user1 = new User("Francesco", "Antonelli");
+		User user2 = new User("Giacomo", "Scavalcasedili");
 		
 		user1 = userService.saveUser(user1);
 		user2 = userService.saveUser(user2);

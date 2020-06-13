@@ -54,11 +54,9 @@ class TaskTests {
 		System.out.println("Fattoh!");
 	}
 	
-	
-
 	@Test
 	public void aggiungiTaskTest() {
-		User user = new User("Silvia", "Montorselli", "Fyu11", "ciaone");
+		User user = new User("Silvia", "Montorselli");
 		Project project = new Project("ProgettoBrutto", user);
 		Task task = new Task("Task", "Task bruttissima", user, project);
 		
@@ -74,7 +72,7 @@ class TaskTests {
 	
 	@Test
 	public void setCompletedTest() {
-		User user = new User("Giulio", "Smedile", "smeds", "lacipolla");
+		User user = new User("Giulio", "Smedile");
 		Project project = new Project("ProgettoBello", user);
 		Task task = new Task("Task", "Task bellissima", user, project);
 		

@@ -30,12 +30,7 @@ public class User {
 	@Column(nullable = false)
 	private String cognome;
 
-	@Column(nullable = false, unique = true)
-	private String username;
-
-	@Column(nullable = false)
-	private String password;
-
+	@Column(updatable = false, nullable = false)
 	private LocalDateTime dataCreazione;
 
 	@OneToMany(mappedBy = "proprietario", cascade = {CascadeType.REMOVE})
@@ -50,12 +45,10 @@ public class User {
 		this.visibleProjects = new ArrayList<>();
 	}
 
-	public User(String nome, String cognome, String username, String password) {
+	public User(String nome, String cognome) {
 		this();
 		this.nome = nome;
 		this.cognome = cognome;
-		this.username = username;
-		this.password = password;
 	}
 
 	public Long getId() {
@@ -80,22 +73,6 @@ public class User {
 
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public LocalDateTime getDataCreazione() {
@@ -131,8 +108,6 @@ public class User {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((ownedProjects == null) ? 0 : ownedProjects.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + ((visibleProjects == null) ? 0 : visibleProjects.hashCode());
 		return result;
 	}
@@ -171,16 +146,6 @@ public class User {
 				return false;
 		} else if (!ownedProjects.equals(other.ownedProjects))
 			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
 		if (visibleProjects == null) {
 			if (other.visibleProjects != null)
 				return false;
@@ -191,8 +156,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", username=" + username + ", password="
-				+ password + ", dataCreazione=" + dataCreazione + ", ownedProjects=" + ownedProjects
+		return "User [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", dataCreazione=" + dataCreazione + ", ownedProjects=" + ownedProjects
 				+ ", visibleProjects=" + visibleProjects + "]";
 	}
 

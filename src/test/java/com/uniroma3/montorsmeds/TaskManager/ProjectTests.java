@@ -29,7 +29,6 @@ class ProjectTests {
 	@Autowired
 	private UserRepository userRepository;
 
-	
 	@Autowired
 	private ProjectService projectService;
 
@@ -48,7 +47,7 @@ class ProjectTests {
 
 	@Test
 	public void aggiungiProjectTest() {
-		User user1 = new User("Giulio", "Smedile", "smeds", "lacipolla");
+		User user1 = new User("Giulio", "Smedile");
 		Project project1 = new Project("Progetto", user1);
 		
 		user1 = userService.saveUser(user1);
@@ -60,13 +59,13 @@ class ProjectTests {
 	
 	@Test
 	public void getProjectById() {
-		User user1 = new User("Giulia", "Smedila", "smedsa", "lecipolle");
+		User user1 = new User("Giulia", "Smedila");
 		
 		
 		Project project1 = new Project("ProgettoBello", user1);
 		
 		
-		User user2 = new User("Silvia", "Montorselli", "Fyu11", "sonobellissima");
+		User user2 = new User("Silvia", "Montorselli");
 		
 		Project project2 = new Project("ProgettoBrutto", user2);
 		
@@ -81,11 +80,11 @@ class ProjectTests {
 	
 	@Test
 	public void getProjectByProprietario() {
-		User user1 = new User("Giuli", "Smedil", "smed", "lacipoll");
+		User user1 = new User("Giuli", "Smedil");
 		
 		Project project1 = new Project("ProgettoBell", user1);
 		
-		User user2 = new User("Silvi", "Montorsell", "Fyu1", "sonobellissim");
+		User user2 = new User("Silvi", "Montorsell");
 		
 		Project project2 = new Project("ProgettoBrutt", user2);
 		
@@ -100,7 +99,7 @@ class ProjectTests {
 	
 	@Test
 	public void addMemberTest() {
-		User user1 = new User("Giulio1", "Smedile1", "smeds1", "lacipolla1");
+		User user1 = new User("Giulio1", "Smedile1");
 		Project project1 = new Project("ProgettoBello1", user1);
 		
 		user1 = userService.saveUser(user1);

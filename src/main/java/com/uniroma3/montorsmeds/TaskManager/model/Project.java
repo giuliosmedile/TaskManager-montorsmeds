@@ -30,8 +30,10 @@ public class Project {
 	@Column(nullable = false)
 	private String nome;
 	
+	@Column(updatable = false, nullable = false)
 	private LocalDateTime dataCreazione;
 	
+	@Column(nullable = false)
 	private LocalDateTime dataUltimoAggiornamento;
 	
 	// è lazy perchè non voglio che si aggiorni quando persisto
