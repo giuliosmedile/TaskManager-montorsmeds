@@ -7,8 +7,11 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import com.uniroma3.montorsmeds.TaskManager.model.Credentials;
 import com.uniroma3.montorsmeds.TaskManager.repository.CredentialsRepository;
@@ -51,4 +54,10 @@ public class CredentialsService {
 		}
 		return result;
 	}
+	
+	@Bean
+    public PasswordEncoder passwordEncoder() {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder;
+    }
 }
