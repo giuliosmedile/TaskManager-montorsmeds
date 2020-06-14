@@ -15,6 +15,7 @@ import static com.uniroma3.montorsmeds.TaskManager.model.Credentials.ADMIN_ROLE;
 
 public class AuthConfiguration extends WebSecurityConfigurerAdapter{
 	
+	
 	@Autowired
 	DataSource dataSource;
 	
@@ -40,5 +41,11 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter{
 			.authoritiesByUsernameQuery("SELECT username, role FROM credentials WHERE username=?")
 			.usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credentials WHERE username=?");
 	}
+	
+	@Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 	
 }

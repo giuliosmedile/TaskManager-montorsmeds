@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.uniroma3.montorsmeds.TaskManager.controller.session.SessionData;
 import com.uniroma3.montorsmeds.TaskManager.controller.validation.CredentialsValidator;
 import com.uniroma3.montorsmeds.TaskManager.controller.validation.UserValidator;
 import com.uniroma3.montorsmeds.TaskManager.model.Credentials;
@@ -27,6 +28,9 @@ public class AuthenticationController {
 	
 	@Autowired
 	CredentialsValidator credentialsValidator;
+	
+	@Autowired
+	SessionData sessionData;
 	
 	@RequestMapping(value = {"/users/register"}, method = RequestMethod.GET)
 	public String showRegisterForm(Model model) {
