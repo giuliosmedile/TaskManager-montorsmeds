@@ -29,6 +29,9 @@ public class Project {
 	@Column(nullable = false)
 	private String nome;
 	
+	@Column
+	private String descrizione;
+	
 	@Column(updatable = false, nullable = false)
 	private LocalDateTime dataCreazione;
 	
@@ -36,7 +39,7 @@ public class Project {
 	private LocalDateTime dataUltimoAggiornamento;
 	
 	// è lazy perchè non voglio che si aggiorni quando persisto
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	//column(nullable = false)
 	private User proprietario;
 
@@ -44,7 +47,7 @@ public class Project {
 	private List<User> utentiCondivisi;
 	
 	// è eager perchè aggiorno quando persisto	
-	@OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE})
+	@OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	//@JoinColumn(name = "project_id")
 	private List<Task> tasks;
 	
@@ -92,6 +95,14 @@ public class Project {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
 	}
 
 	public LocalDateTime getDataCreazione() {
@@ -143,6 +154,56 @@ public class Project {
 	@PreUpdate
 	protected void onUpdate() {
 		this.dataUltimoAggiornamento = LocalDateTime.now();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dataCreazione == null) ? 0 : dataCreazione.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((proprietario == null) ? 0 : proprietario.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Project other = (Project) obj;
+		if (dataCreazione == null) {
+			if (other.dataCreazione != null)
+				return false;
+		} else if (!dataCreazione.equals(other.dataCreazione))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (proprietario == null) {
+			if (other.proprietario != null)
+				return false;
+		} else if (!proprietario.equals(other.proprietario))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Project [id=" + id + ", nome=" + nome + ", descrizione=" + descrizione + ", dataCreazione="
+				+ dataCreazione + ", dataUltimoAggiornamento=" + dataUltimoAggiornamento + ", proprietario="
+				+ proprietario + "]";
 	}
 
 	

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +33,7 @@ public class User {
 	@Column(updatable = false, nullable = false)
 	private LocalDateTime dataCreazione;
 
-	@OneToMany(mappedBy = "proprietario", cascade = {CascadeType.REMOVE})
+	@OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "proprietario")
 	//@JoinColumn(name = "user_id")
 	private List<Project> ownedProjects;
 
@@ -98,16 +99,15 @@ public class User {
 		this.visibleProjects = visibleProjects;
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cognome == null) ? 0 : cognome.hashCode());
-		result = prime * result + ((dataCreazione == null) ? 0 : dataCreazione.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((ownedProjects == null) ? 0 : ownedProjects.hashCode());
-		result = prime * result + ((visibleProjects == null) ? 0 : visibleProjects.hashCode());
 		return result;
 	}
 
@@ -125,11 +125,6 @@ public class User {
 				return false;
 		} else if (!cognome.equals(other.cognome))
 			return false;
-		if (dataCreazione == null) {
-			if (other.dataCreazione != null)
-				return false;
-		} else if (!dataCreazione.equals(other.dataCreazione))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -140,23 +135,12 @@ public class User {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (ownedProjects == null) {
-			if (other.ownedProjects != null)
-				return false;
-		} else if (!ownedProjects.equals(other.ownedProjects))
-			return false;
-		if (visibleProjects == null) {
-			if (other.visibleProjects != null)
-				return false;
-		} else if (!visibleProjects.equals(other.visibleProjects))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", dataCreazione=" + dataCreazione + ", ownedProjects=" + ownedProjects
-				+ ", visibleProjects=" + visibleProjects + "]";
+		return "User [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", dataCreazione=" + dataCreazione;
 	}
 
 	@PrePersist

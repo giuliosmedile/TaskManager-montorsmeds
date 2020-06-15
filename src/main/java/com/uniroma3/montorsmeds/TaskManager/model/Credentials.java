@@ -122,7 +122,6 @@ public class Credentials {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((dataCreazione == null) ? 0 : dataCreazione.hashCode());
-		result = prime * result + ((dataUltimoAggiornamento == null) ? 0 : dataUltimoAggiornamento.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -141,11 +140,6 @@ public class Credentials {
 			if (other.dataCreazione != null)
 				return false;
 		} else if (!dataCreazione.equals(other.dataCreazione))
-			return false;
-		if (dataUltimoAggiornamento == null) {
-			if (other.dataUltimoAggiornamento != null)
-				return false;
-		} else if (!dataUltimoAggiornamento.equals(other.dataUltimoAggiornamento))
 			return false;
 		if (role == null) {
 			if (other.role != null)

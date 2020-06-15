@@ -139,26 +139,17 @@ public class Task {
 	}
 
 
-
-
-
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((dataCreazione == null) ? 0 : dataCreazione.hashCode());
-		result = prime * result + ((dataUltimoAggiornamento == null) ? 0 : dataUltimoAggiornamento.hashCode());
-		result = prime * result + ((descrizione == null) ? 0 : descrizione.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((project == null) ? 0 : project.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -173,16 +164,6 @@ public class Task {
 			if (other.dataCreazione != null)
 				return false;
 		} else if (!dataCreazione.equals(other.dataCreazione))
-			return false;
-		if (dataUltimoAggiornamento == null) {
-			if (other.dataUltimoAggiornamento != null)
-				return false;
-		} else if (!dataUltimoAggiornamento.equals(other.dataUltimoAggiornamento))
-			return false;
-		if (descrizione == null) {
-			if (other.descrizione != null)
-				return false;
-		} else if (!descrizione.equals(other.descrizione))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -206,8 +187,6 @@ public class Task {
 			return false;
 		return true;
 	}
-
-
 
 	@Override
 	public String toString() {

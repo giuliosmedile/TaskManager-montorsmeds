@@ -30,13 +30,16 @@ public class AuthConfiguration extends WebSecurityConfigurerAdapter{
 			.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/", "/index", "/login", "/users/register").permitAll()
 			.antMatchers(HttpMethod.POST, "/login", "/users/register").permitAll()
-			.antMatchers(HttpMethod.GET, "/admin").hasAnyAuthority(ADMIN_ROLE)
+			.antMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority(ADMIN_ROLE)
+			.antMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority(ADMIN_ROLE)
 			.anyRequest().authenticated()
 			.and().formLogin()
 			.defaultSuccessUrl("/home/")
 			.and().logout()
 			.logoutUrl("/logout")
-			.logoutSuccessUrl("/index");
+			.logoutSuccessUrl("/index")
+			.invalidateHttpSession(true)
+			.clearAuthentication(true).permitAll();
 	}
 	
 	@Override

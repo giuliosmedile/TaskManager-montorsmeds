@@ -1,5 +1,7 @@
 package com.uniroma3.montorsmeds.TaskManager.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -34,6 +36,17 @@ public class ProjectService {
 		return result.orElse(null);
 	}
 	
+	@Transactional
+	public List<Project> getAllProjectsFromUser(User user) {
+		List<Project> result = new ArrayList<>();
+		Iterable<Project> iterable = this.projectRepository.findAll();
+		for(Project p : iterable) {
+			if (p.getProprietario().equals(user))
+				result.add(p);
+		}
+		return result;
+	}
+	
 //  per ottenere il progetto dal nome del progetto e il proprietario
 	@Transactional
 	public Project getProject(String name, User proprietario) {
@@ -63,5 +76,15 @@ public class ProjectService {
 //  rimuovi una task dal progetto
 	public void removeTask(Project project, Task task) {
 		project.removeTask(task);
+	}
+
+	public List<Project> getAllProjectsSharedWithUser(User user) {
+		List<Project> result = new ArrayList<>();
+		Iterable<Project> iterable = this.projectRepository.findAll();
+		for(Project p : iterable) {
+			if (p.getUtentiCondivisi().contains(user))
+				result.add(p);
+		}
+		return result;
 	}
 }

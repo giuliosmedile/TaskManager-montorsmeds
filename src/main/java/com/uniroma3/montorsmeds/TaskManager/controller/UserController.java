@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.uniroma3.montorsmeds.TaskManager.controller.session.SessionData;
+import com.uniroma3.montorsmeds.TaskManager.model.Credentials;
 import com.uniroma3.montorsmeds.TaskManager.model.User;
 
 @Controller
@@ -24,6 +25,15 @@ public class UserController {
 		User loggedUser = sessionData.getLoggedUser();
 		model.addAttribute("user", loggedUser);
 		return "home";
+	}
+	
+	@RequestMapping(value = {"/users/me"}, method = RequestMethod.GET)
+	public String me(Model model) {
+		User loggedUser = sessionData.getLoggedUser();
+		Credentials credentials = sessionData.getLoggedCredentials();
+		model.addAttribute("loggedUser", loggedUser);
+		model.addAttribute("credentials", credentials);
+		return "userProfile";
 	}
 	
 	@RequestMapping(value = {"/admin"}, method = RequestMethod.GET)
