@@ -34,7 +34,7 @@ public class SessionData {
 		return this.user;
 	}
 
-	private void update() {
+	public void update() {
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDetails loggedUserDetails = (UserDetails) obj;
 		this.credentials = this.credentialsRepository.findByUsername(loggedUserDetails.getUsername()).get();

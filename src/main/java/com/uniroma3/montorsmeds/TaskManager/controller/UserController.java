@@ -90,13 +90,16 @@ public class UserController {
 	@RequestMapping(value = {"/users/me/updateProfile"}, method = RequestMethod.POST)
 	public String updateUser(@Valid @ModelAttribute("updateUserForm") User user, BindingResult userBindingResult, Model model) {
 		User loggedUser = sessionData.getLoggedUser();
+		
 		this.userValidator.validate(user, userBindingResult);
 		if(!userBindingResult.hasErrors()) {
 			user.setId(loggedUser.getId());
 			this.userService.updateUser(user);
-			model.addAttribute("loggedUser", user);
+			sessionData.update();
+			model.addAttribute("loggedUser", sessionData.getLoggedUser());
 			return "redirect:/users/me";
 		}
+		
 		return "updateProfile";
 	}
 }
