@@ -51,4 +51,10 @@ public class CredentialsService {
 		}
 		return result;
 	}
+
+	@Transactional
+	public void deleteCredentials(String username) {
+		Credentials credentials = this.getCredentials(username);
+		this.credentialsRepository.delete(credentials);
+	}
 }

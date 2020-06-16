@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TaskManager</title>
+</head>
+<body>
+	<h1>All Users</h1>
+
+	<div>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Username</th>
+					<th>Nome</th>
+					<th>Cognome</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="credentials : ${credentialsList}">
+					<td th:text="${credentials.username}"></td>
+					<td th:text="${credentials.user.nome}"></td>
+					<td th:text="${credentials.user.cognome}"></td>
+					<td>
+						<form method="POST"
+							th:action="@{/admin/users/{username}/delete(username=${credentials.username})}">
+							<button type="submit" name="submit" value="value">DELETE</button>
+						</form>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+</html>

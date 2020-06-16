@@ -19,6 +19,11 @@
 	<h4>
 		<a href="/users/me">Profile</a>
 	</h4>
+	
+	<h4 th:if="${credentials.role} == ADMIN">
+		<a href="/admin/">Admin Panel</a>
+	</h4>
+	
 	<h4>
 		<a href="/logout">Logout</a>
 	</h4>
