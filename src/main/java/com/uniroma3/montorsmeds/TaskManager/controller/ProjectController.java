@@ -101,5 +101,27 @@ public class ProjectController {
 		
 	}
 	
+	@RequestMapping(value = {"/projects/{projectId}/update"}, method = RequestMethod.GET)
+	public String showProjectUpdateForm(Model model, @PathVariable Long projectId) {
+		model.addAttribute("updateProjectForm", new Project());
+		model.addAttribute("loggedUser", this.sessionData.getLoggedUser());
+		model.addAttribute("oldProject", this.projectService.getProject(projectId));
+		return "updateProject";
+	}
 	
+	@RequestMapping(value = {"/projects/{projectId}/update"}, method = RequestMethod.POST)
+	public String updateProject(@Valid @ModelAttribute("updateProjectForm") Project project, BindingResult projectBindingResult, Model model, @PathVariable Long projectId) {
+		User loggedUser = sessionData.getLoggedUser();
+		
+		this.projectValidator.validate(project, projectBindingResult);
+		if(!projectBindingResult.hasErrors()) {
+			project.setId(projectId);
+			this.projectService.updateProject(project);
+			sessionData.update();
+			model.addAttribute("loggedUser", sessionData.getLoggedUser());
+			return "redirect:/projects";
+		}
+		
+		return "updateProject";
+	}
 }

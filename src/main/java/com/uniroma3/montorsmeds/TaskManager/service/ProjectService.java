@@ -87,4 +87,12 @@ public class ProjectService {
 		}
 		return result;
 	}
+	
+	@Transactional
+	public void updateProject(Project project) {
+		Project old = this.getProject(project.getId());
+		old.setNome(project.getNome());
+		old.setDescrizione(project.getDescrizione());
+		this.saveProject(old);
+	}
 }

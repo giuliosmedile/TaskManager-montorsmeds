@@ -56,7 +56,6 @@ public class UserService {
 		User old = this.getUser(user.getId());
 		old.setNome(user.getNome());
 		old.setCognome(user.getCognome());
-//		old.setId(user.getId());
 		this.saveUser(old);
 	}
 

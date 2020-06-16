@@ -12,13 +12,21 @@
 				<tr>
 					<th>Name</th>
 					<th>Description</th>
+					<th>Update</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				<tr th:each="project : ${projectList}">
-					<td><a th:href="'/projects/' + ${project.id}" th:text="${project.nome}">...</a></td>
+					<td><a th:href="'/projects/' + ${project.id}"
+						th:text="${project.nome}">...</a></td>
 					<td th:text="${project.descrizione}">...</td>
+					<td>
+						<form method="POST" th:if="${project.proprietario.id}==${loggedUser.id}"
+							th:action="'/projects/' + ${project.id} + '/update'">
+							<button type="submit" name="submit" value="value">UPDATE</button>
+						</form>
+					</td>
 				</tr>
 			</tbody>
 
