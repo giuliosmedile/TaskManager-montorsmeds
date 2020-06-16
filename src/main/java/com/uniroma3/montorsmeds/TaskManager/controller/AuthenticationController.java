@@ -49,7 +49,6 @@ public class AuthenticationController {
 			return "registrationSuccesful";
 		}
 		return "registerUser";
-		
 	}
 	
 }

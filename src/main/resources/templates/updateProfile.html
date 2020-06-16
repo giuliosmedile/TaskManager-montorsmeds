@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<title>TaskManager</title>
+</head>
+<body>
+	<h1>Update your data!</h1>
+	<form id="updateUserForm" th:action="@{/users/me/updateProfile}"
+		method="POST">
+		<table>
+			<tr>
+				<td><label for="nomeInput">Nome</label></td>
+				<td><input id="NomeInput" type="text"
+					th:field="${updateUserForm.nome}" th:placeholder="${loggedUser.nome}" /></td>
+				<td th:if="${#fields.hasErrors('updateUserForm.nome')}"
+					th:errors="${updateUserForm.nome}" th:style="'color:red'"></td>
+			</tr>
+			<tr>
+				<td><label for="cognomeInput">Last Name</label></td>
+				<td><input id="cognomeInput" type="text"
+					th:field="${updateUserForm.cognome}" th:placeholder="${loggedUser.cognome}" /></td>
+				<td th:if="${#fields.hasErrors('updateUserForm.cognome')}"
+					th:errors="${updateUserForm.cognome}" th:style="'color:red'"></td>
+			</tr>
+			<tr>
+				<td>
+					<button type="submit">Update</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+
+</body>
+</html>
