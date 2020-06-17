@@ -11,8 +11,9 @@
 	<h4 th:text="${project.descrizione}"></h4>
 
 	<div>
-	<h3>Owner: </h3>
-	<h4 th:text="${project.proprietario.nome} + ' ' + ${project.proprietario.cognome}"></h4>
+		<h3>Owner:</h3>
+		<h4
+			th:text="${project.proprietario.nome} + ' ' + ${project.proprietario.cognome}"></h4>
 	</div>
 	<div th:if="${members.size() > 0}">
 		<h3>Shared with:</h3>
@@ -25,7 +26,8 @@
 	</div>
 
 	<div>
-		<a th:if="${loggedUser.id} == ${project.proprietario.id}" th:href="'/projects/' + ${project.id} + '/share'">Share</a>
+		<a th:if="${loggedUser.id} == ${project.proprietario.id}"
+			th:href="'/projects/' + ${project.id} + '/share'">Share</a>
 	</div>
 
 	<h3>Tasks</h3>
@@ -33,12 +35,17 @@
 		<li th:each="task : ${project.tasks}">
 			<div th:text="${task.nome}"></div>
 			<div th:text="${task.descrizione}"></div>
+			<div>
+				<a th:href="'/projects/' + ${project.id} + '/tasks/' + ${task.id} + '/edit'">Edit</a>
+			</div>
 		</li>
 	</ul>
-
+	<a th:href="'/projects/' + ${project.id} + '/tasks/add'">Add task</a>
 	<div>
-		<a th:if="${loggedUser.id} == ${project.proprietario.id}" href="/projects">Torna ai tuoi progetti</a>
-		<a th:if="${loggedUser.id} != ${project.proprietario.id}" href="/projects/shared">Torna ai progetti condivisi con te</a>
+		<a th:if="${loggedUser.id} == ${project.proprietario.id}"
+			href="/projects">Torna ai tuoi progetti</a> <a
+			th:if="${loggedUser.id} != ${project.proprietario.id}"
+			href="/projects/shared">Torna ai progetti condivisi con te</a>
 	</div>
 
 </body>

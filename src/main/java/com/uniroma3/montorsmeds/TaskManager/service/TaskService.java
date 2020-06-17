@@ -3,6 +3,7 @@ package com.uniroma3.montorsmeds.TaskManager.service;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,16 @@ public class TaskService {
 	public Task setCompleted(Task task) {
 		task.setCompleted();
 		return this.taskRepository.save(task);
+	}
+
+	@Transactional
+	public void updateTask(Task task) {
+		Task old = this.getTask(task.getId());
+		old.setNome(task.getNome());
+		old.setDescrizione(task.getDescrizione());
+		old.setUser(task.getUser());
+		old.setProject(task.getProject());
+		this.taskRepository.save(old);
 	}
 
 }
