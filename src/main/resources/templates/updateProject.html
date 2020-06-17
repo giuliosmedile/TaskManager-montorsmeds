@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h1 th:text = "'Update Project: ' + ${oldProject.nome}"></h1>
-	<form id="updateProjectForm" th:action="@{'/projects/'+${oldProject.id}+'/update'}"
+	<form id="updateProjectForm" th:action="@{/projects/{id}/update(id=${oldProject.id})}"
 		method="POST">
 		<table>
 			<tr>
