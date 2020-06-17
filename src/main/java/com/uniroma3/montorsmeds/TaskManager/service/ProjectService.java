@@ -95,4 +95,5 @@ public class ProjectService {
 		old.setDescrizione(project.getDescrizione());
 		this.saveProject(old);
 	}
+
 }

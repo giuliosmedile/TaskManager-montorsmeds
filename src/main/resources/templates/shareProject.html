@@ -15,7 +15,7 @@
 					<th>Username</th>
 					<th>Nome</th>
 					<th>Cognome</th>
-					<th>Delete</th>
+					<th>Share</th>
 				</tr>
 			</thead>
 
@@ -26,17 +26,13 @@
 					<td th:text="${credentials.user.cognome}"></td>
 					<td>
 						<form method="POST"
-							th:action="@{/admin/users/{username}/delete(username=${credentials.username})}">
-							<button type="submit" name="submit" value="value">DELETE</button>
+							th:action="@{/projects/{projectId}/share/{credentialsId}(projectId=${projectId}, credentialsId=${credentials.id})}">
+							<button type="submit" name="submit" value="value">SHARE</button>
 						</form>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-	</div>
-
-	<div>
-		<a href="/admin">Torna indietro</a>
 	</div>
 
 </body>

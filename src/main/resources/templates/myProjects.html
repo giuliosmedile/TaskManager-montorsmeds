@@ -13,6 +13,7 @@
 					<th>Name</th>
 					<th>Description</th>
 					<th>Update</th>
+					<th th:if="${title} == 'My Projects'">Delete</th>
 				</tr>
 			</thead>
 
@@ -27,10 +28,20 @@
 							<button type="submit" name="submit" value="value">UPDATE</button>
 						</form>
 					</td>
+					<td>
+						<form method="POST" th:if="${project.proprietario.id}==${loggedUser.id}"
+							th:action="'/projects/' + ${project.id} + '/delete'">
+							<button type="submit" name="submit" value="value">DELETE</button>
+						</form>
+					</td>
 				</tr>
 			</tbody>
 
 		</table>
+	</div>
+	
+	<div>
+		<a href="/home">Torna indietro</a>
 	</div>
 </body>
 </html>

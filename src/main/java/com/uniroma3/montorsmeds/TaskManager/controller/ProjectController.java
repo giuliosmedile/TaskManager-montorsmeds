@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.uniroma3.montorsmeds.TaskManager.controller.session.SessionData;
 import com.uniroma3.montorsmeds.TaskManager.controller.validation.ProjectValidator;
 import com.uniroma3.montorsmeds.TaskManager.model.User;
+import com.uniroma3.montorsmeds.TaskManager.model.Credentials;
 import com.uniroma3.montorsmeds.TaskManager.model.Project;
+import com.uniroma3.montorsmeds.TaskManager.service.CredentialsService;
 import com.uniroma3.montorsmeds.TaskManager.service.ProjectService;
 import com.uniroma3.montorsmeds.TaskManager.service.UserService;
 
@@ -30,6 +32,9 @@ public class ProjectController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	CredentialsService credentialsService;
 	
 	@Autowired
 	ProjectValidator projectValidator;
@@ -123,5 +128,35 @@ public class ProjectController {
 		}
 		
 		return "updateProject";
+	}
+	
+	@RequestMapping(value = {"/projects/{projectId}/delete"}, method = RequestMethod.POST)
+	public String removeUser(Model model, @PathVariable Long projectId) {
+		this.projectService.deleteProject(this.projectService.getProject(projectId));
+		
+		return "redirect:/projects";
+	}
+	
+	@RequestMapping(value = {"/projects/{projectId}/share"}, method = RequestMethod.GET)
+	public String allShareableUsers(Model model, @PathVariable Long projectId) {
+		User loggedUser = sessionData.getLoggedUser();
+		List<Credentials> allCredentials = this.credentialsService.getAllCredentials();
+		
+		//posso fare questa cosa perchè, mettendo strategia Identity per l'id, l'id dello user è lo stesso delle credentials
+//		allCredentials.remove(this.credentialsService.getCredentials(loggedUser.getId()));
+		model.addAttribute("loggedUser", loggedUser);
+		model.addAttribute("credentialsList", allCredentials);
+		model.addAttribute("projectId", projectId);		
+		return "shareProject";
+	}
+	
+	@RequestMapping(value = {"/projects/{projectId}/share/{credentialsId}"}, method = RequestMethod.POST)
+	public String shareProject(Model model, @PathVariable Long projectId, @PathVariable Long credentialsId) {
+		Project project = this.projectService.getProject(projectId);
+		User user = this.userService.getUser(credentialsId);
+		
+		this.projectService.addMember(project, user);
+		
+		return "redirect:/projects/{projectId}";
 	}
 }
