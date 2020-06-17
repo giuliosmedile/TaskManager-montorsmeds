@@ -31,15 +31,47 @@
 	</div>
 
 	<h3>Tasks</h3>
-	<ul>
-		<li th:each="task : ${project.tasks}">
-			<div th:text="${task.nome}"></div>
-			<div th:text="${task.descrizione}"></div>
-			<div>
-				<a th:href="'/projects/' + ${project.id} + '/tasks/' + ${task.id} + '/edit'">Edit</a>
-			</div>
-		</li>
-	</ul>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>Descrizione</th>
+				<th>Utente</th>
+				<th>Edit</th>
+				<th>Share</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="task : ${project.tasks}">
+				<td th:text="${task.nome}">...</td>
+				<td th:text="${task.descrizione}">...</td>
+				<td th:text="${task.user.nome} + ' ' +${task.user.cognome}">...</td>
+				<td>
+					<form method="GET" th:if="${loggedUser.nome} == ${task.user.nome}"
+						th:action="'/projects/' + ${project.id} + '/tasks/' + ${task.id} + '/edit'">
+						<button type="submit" name="submit" value="value">EDIT</button>
+					</form>
+				</td>
+				<td> 
+					<form method="GET" th:if="${loggedUser.nome} == ${task.user.nome}"
+						th:action="'/projects/' + ${project.id} + '/tasks/' + ${task.id} + '/share'">
+						<button type="submit" name="submit" value="value">SHARE</button>
+					</form>
+				</td>
+				<td>
+					<form method="POST" th:if="${loggedUser.nome} == ${task.user.nome}"
+						th:action="'/projects/' + ${project.id} + '/tasks/' + ${task.id} + '/delete'">
+						<button type="submit" name="submit" value="value">DELETE</button>
+					</form>
+				</td>
+			</tr>
+
+
+		</tbody>
+	</table>
+
 	<a th:href="'/projects/' + ${project.id} + '/tasks/add'">Add task</a>
 	<div>
 		<a th:if="${loggedUser.id} == ${project.proprietario.id}"

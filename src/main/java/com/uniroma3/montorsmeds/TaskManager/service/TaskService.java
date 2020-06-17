@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniroma3.montorsmeds.TaskManager.model.Task;
+import com.uniroma3.montorsmeds.TaskManager.model.User;
 import com.uniroma3.montorsmeds.TaskManager.repository.TaskRepository;
 
 @Service 
@@ -26,7 +27,13 @@ public class TaskService {
 	
 //  rimuovi una task 
 	@Transactional 
-	public void deleteTask(Task task) {
+	public void removeTask(Task task) {
+		this.taskRepository.delete(task);
+	}
+	
+	@Transactional
+	public void removeTask(Long id) {
+		Task task = this.getTask(id);
 		this.taskRepository.delete(task);
 	}
 	
@@ -48,8 +55,13 @@ public class TaskService {
 		Task old = this.getTask(task.getId());
 		old.setNome(task.getNome());
 		old.setDescrizione(task.getDescrizione());
-		old.setUser(task.getUser());
-		old.setProject(task.getProject());
+		this.taskRepository.save(old);
+	}
+	
+	@Transactional
+	public void updateUser(Task task, User user) {
+		Task old = this.getTask(task.getId());
+		old.setUser(user);
 		this.taskRepository.save(old);
 	}
 

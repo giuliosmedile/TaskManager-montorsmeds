@@ -1,5 +1,8 @@
 package com.uniroma3.montorsmeds.TaskManager.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.uniroma3.montorsmeds.TaskManager.controller.session.SessionData;
 import com.uniroma3.montorsmeds.TaskManager.controller.validation.TaskValidator;
+import com.uniroma3.montorsmeds.TaskManager.model.Credentials;
 import com.uniroma3.montorsmeds.TaskManager.model.Project;
 import com.uniroma3.montorsmeds.TaskManager.model.Task;
 import com.uniroma3.montorsmeds.TaskManager.model.User;
@@ -79,18 +83,59 @@ public class TaskController {
 	}
 	
 	@RequestMapping(value = {"/projects/{projectId}/tasks/{taskId}/edit"}, method = RequestMethod.POST)
-	public String updateProject(@Valid @ModelAttribute("updateTaskForm") Task task, BindingResult taskBindingResult, Model model, @PathVariable Long projectId, @PathVariable Long taskId) {
-		User loggedUser = sessionData.getLoggedUser();
+	public String updateTask(@Valid @ModelAttribute("updateTaskForm") Task task, BindingResult taskBindingResult, Model model, @PathVariable Long projectId, @PathVariable Long taskId) {
 		this.taskValidator.validate(task, taskBindingResult);
 		if(!taskBindingResult.hasErrors()) {
 			task.setId(taskId);
 			this.taskService.updateTask(task);
-			sessionData.update();
 			model.addAttribute("loggedUser", sessionData.getLoggedUser());
 			return "redirect:/projects/" + projectId;
 		}
 		
 		return "updateTask";
+	}
+	
+	@RequestMapping(value = {"/projects/{projectId}/tasks/{taskId}/delete"}, method = RequestMethod.POST)
+	public String deleteTask(Model model, @PathVariable Long projectId, @PathVariable Long taskId) {
+		Task task = this.taskService.getTask(taskId);
+		Project project = this.projectService.getProject(projectId);
+		project.removeTask(task);
+		this.projectService.updateProject(project);
+		this.taskService.removeTask(task);
+		return "redirect:/projects/" + projectId;
+	}
+	
+	@RequestMapping(value = {"/projects/{projectId}/tasks/{taskId}/share"}, method = RequestMethod.GET)
+	public String allShareableUsers(Model model, @PathVariable Long projectId, @PathVariable Long taskId) {
+		User loggedUser = sessionData.getLoggedUser();
+		List<Credentials> allCredentials = new ArrayList<>();
+		allCredentials.addAll(this.credentialsService.getAllCredentials());
+		List<Credentials> myCredentials = new ArrayList<>();
+		Project project = this.projectService.getProject(projectId);
+		for (Credentials c : allCredentials) {
+			if (project.getUtentiCondivisi().contains(c.getUser())) {
+				myCredentials.add(c);
+			}
+		}
+				
+		//posso fare questa cosa perchè, mettendo strategia Identity per l'id, l'id dello user è lo stesso delle credentials
+		allCredentials.remove(this.credentialsService.getCredentials(loggedUser.getId()));
+		model.addAttribute("loggedUser", loggedUser);
+		model.addAttribute("credentialsList", myCredentials);
+		model.addAttribute("projectId", projectId);
+		model.addAttribute("taskId", taskId);
+		return "shareProject";
+	}
+	
+	@RequestMapping(value = {"/projects/{projectId}/tasks/{taskId}/share/{credentialsId}"}, method = RequestMethod.POST)
+	public String shareProject(Model model, @PathVariable Long projectId, @PathVariable Long credentialsId, @PathVariable Long taskId) {
+		Project project = this.projectService.getProject(projectId);
+		User user = this.userService.getUser(credentialsId);
+		Task task = this.taskService.getTask(taskId);
+		
+		this.taskService.updateUser(task, user);
+		
+		return "redirect:/projects/{projectId}";
 	}
 
 }

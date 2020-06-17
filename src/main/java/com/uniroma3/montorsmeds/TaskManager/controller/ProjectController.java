@@ -131,7 +131,7 @@ public class ProjectController {
 	}
 	
 	@RequestMapping(value = {"/projects/{projectId}/delete"}, method = RequestMethod.POST)
-	public String removeUser(Model model, @PathVariable Long projectId) {
+	public String removeProject(Model model, @PathVariable Long projectId) {
 		this.projectService.deleteProject(this.projectService.getProject(projectId));
 		
 		return "redirect:/projects";
@@ -143,7 +143,7 @@ public class ProjectController {
 		List<Credentials> allCredentials = this.credentialsService.getAllCredentials();
 		
 		//posso fare questa cosa perchè, mettendo strategia Identity per l'id, l'id dello user è lo stesso delle credentials
-//		allCredentials.remove(this.credentialsService.getCredentials(loggedUser.getId()));
+		allCredentials.remove(this.credentialsService.getCredentials(loggedUser.getId()));
 		model.addAttribute("loggedUser", loggedUser);
 		model.addAttribute("credentialsList", allCredentials);
 		model.addAttribute("projectId", projectId);		

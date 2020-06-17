@@ -6,7 +6,7 @@
 <title>TaskManager</title>
 </head>
 <body>
-	<h1>All Users</h1>
+	<h1>Share with users</h1>
 
 	<div>
 		<table class="table table-hover">
@@ -25,8 +25,14 @@
 					<td th:text="${credentials.user.nome}"></td>
 					<td th:text="${credentials.user.cognome}"></td>
 					<td>
-						<form method="POST"
+						<form method="POST" th:if="${taskId} == null"
 							th:action="@{/projects/{projectId}/share/{credentialsId}(projectId=${projectId}, credentialsId=${credentials.id})}">
+							<button type="submit" name="submit" value="value">SHARE</button>
+						</form>
+					</td>
+					<td>
+						<form method="POST" th:if="${taskId} != null"
+							th:action="@{/projects/{projectId}/tasks/{taskId}/share/{credentialsId}(projectId=${projectId}, taskId=${taskId}, credentialsId=${credentials.id})}">
 							<button type="submit" name="submit" value="value">SHARE</button>
 						</form>
 					</td>

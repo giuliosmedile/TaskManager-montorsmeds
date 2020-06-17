@@ -16,7 +16,7 @@ import com.uniroma3.montorsmeds.TaskManager.repository.ProjectRepository;
 
 @Service
 public class ProjectService {
-	
+
 	@Autowired
 	protected ProjectRepository projectRepository;
 
@@ -24,18 +24,18 @@ public class ProjectService {
 	public Project saveProject(Project project) {
 		return this.projectRepository.save(project);
 	}
-	
+
 	@Transactional
 	public void deleteProject(Project project) {
 		this.projectRepository.delete(project);
 	}
-	
+
 	@Transactional
 	public Project getProject(long id) {
 		Optional<Project> result = this.projectRepository.findById(id);
 		return result.orElse(null);
 	}
-	
+
 	@Transactional
 	public List<Project> getAllProjectsFromUser(User user) {
 		List<Project> result = new ArrayList<>();
@@ -46,34 +46,34 @@ public class ProjectService {
 		}
 		return result;
 	}
-	
-//  per ottenere il progetto dal nome del progetto e il proprietario
+
+	//  per ottenere il progetto dal nome del progetto e il proprietario
 	@Transactional
 	public Project getProject(String name, User proprietario) {
 		Optional<Project> result = this.projectRepository.findByNomeAndProprietario(name, proprietario);
 		return result.orElse(null);
 	}
-//  aggiunge un membro alla lista degli utenti condivisi
+	//  aggiunge un membro alla lista degli utenti condivisi
 	@Transactional
 	public Project addMember(Project project, User user) {
 		project.addMember(user);
 		return this.projectRepository.save(project);
 	}
-	
-//  rimuovi un membro dalla lista degli utenti condivisi
+
+	//  rimuovi un membro dalla lista degli utenti condivisi
 	@Transactional
 	public void removeMember(Project project, User user) {
 		project.removeMember(user);
 	}
-	
-//  aggiungi una task al progetto
+
+	//  aggiungi una task al progetto
 	@Transactional
 	public Project addTask (Project project, Task task) {
 		project.addTask(task);
 		return this.projectRepository.save(project);
 	}
-	
-//  rimuovi una task dal progetto
+
+	//  rimuovi una task dal progetto
 	public void removeTask(Project project, Task task) {
 		project.removeTask(task);
 	}
@@ -87,10 +87,11 @@ public class ProjectService {
 		}
 		return result;
 	}
-	
+
 	@Transactional
 	public void updateProject(Project project) {
 		Project old = this.getProject(project.getId());
+		old.setTasks(project.getTasks());
 		old.setNome(project.getNome());
 		old.setDescrizione(project.getDescrizione());
 		this.saveProject(old);
