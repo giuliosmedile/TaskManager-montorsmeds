@@ -1,13 +1,17 @@
 package com.uniroma3.montorsmeds.TaskManager.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -41,12 +45,16 @@ public class Task {
 	private Project project;
 	
 	private boolean completed;
+	
+	@ManyToMany(mappedBy = "tasks", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	private List<Tag> tags;
 
 	public Task() {
-
+		this.tags = new ArrayList<>();
 	}
 
 	public Task(String nome, String descrizione, User user, Project project) {
+		this();
 		this.nome = nome;
 		this.descrizione = descrizione;
 		this.user = user;

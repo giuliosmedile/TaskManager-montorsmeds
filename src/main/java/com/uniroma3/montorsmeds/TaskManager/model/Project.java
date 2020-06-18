@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -40,7 +41,6 @@ public class Project {
 	
 	// è lazy perchè non voglio che si aggiorni quando persisto
 	@ManyToOne(fetch = FetchType.EAGER)
-	//column(nullable = false)
 	private User proprietario;
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -48,12 +48,16 @@ public class Project {
 	
 	// è eager perchè aggiorno quando persisto	
 	@OneToMany(mappedBy = "project", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-	//@JoinColumn(name = "project_id")
 	private List<Task> tasks;
+	
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "project")
+	private List<Tag> tags;
 	
 	public Project() {
 		this.utentiCondivisi = new ArrayList<>();
 		this.tasks = new ArrayList<>();
+		this.tags = new ArrayList<>();
 	}
 	
 	public Project(String nome, User proprietario) {
@@ -135,6 +139,14 @@ public class Project {
 
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 	public LocalDateTime getDataUltimoAggiornamento() {
