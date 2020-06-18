@@ -39,10 +39,14 @@ public class User {
 
 	@ManyToMany(mappedBy = "utentiCondivisi")
 	private List<Project> visibleProjects;
+	
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	private List<Commento> commenti;
 
 	public User() {
 		this.ownedProjects = new ArrayList<>();
 		this.visibleProjects = new ArrayList<>();
+		this.commenti = new ArrayList<>();
 	}
 
 	public User(String nome, String cognome) {
@@ -51,6 +55,14 @@ public class User {
 		this.cognome = cognome;
 	}
 
+	public void addCommento(Commento commento) {
+		this.commenti.add(commento);
+	}
+	
+	public void removeCommento(Commento commento) {
+		this.commenti.remove(commento);
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -100,6 +112,14 @@ public class User {
 	}
 
 
+
+	public List<Commento> getCommenti() {
+		return commenti;
+	}
+
+	public void setCommenti(List<Commento> commenti) {
+		this.commenti = commenti;
+	}
 
 	@Override
 	public int hashCode() {

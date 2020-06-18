@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -51,9 +52,13 @@ public class Task {
 	@ManyToMany
 	private List<Tag> tags;
 	
+	@OneToMany(mappedBy="task", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	private List<Commento> commenti;
+	
 
 	public Task() {
 		this.tags = new ArrayList<>();
+		this.commenti = new ArrayList<>();
 	}
 
 	public Task(String nome, String descrizione, User user, Project project) {
@@ -65,7 +70,14 @@ public class Task {
 		this.completed = false;
 	}
 
-
+	public void addCommento(Commento commento) {
+		this.commenti.add(commento);
+	}
+	
+	public void removeCommento(Commento commento) {
+		this.commenti.remove(commento);
+	}
+	
 	public void addTag(Tag tag) {
 		this.tags.add(tag);
 	}
@@ -152,6 +164,14 @@ public class Task {
 
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
+	}
+
+	public List<Commento> getCommenti() {
+		return commenti;
+	}
+
+	public void setCommenti(List<Commento> commenti) {
+		this.commenti = commenti;
 	}
 
 	@PrePersist

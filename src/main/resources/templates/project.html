@@ -52,9 +52,11 @@
 				<th>Descrizione</th>
 				<th>Utente</th>
 				<th>Tags</th>
+				<th>Comments</th>
 				<th>Set Completed</th>
 				<th>Edit</th>
 				<th>Edit tags</th>
+				<th>Add comment</th>
 				<th>Share</th>
 				<th>Delete</th>
 			</tr>
@@ -78,6 +80,14 @@
 					</ul>
 				</td>
 				<td>
+					<ul>
+						<li th:each="comment : ${task.commenti}">
+							<div th:text="${comment.user.nome} + ' ' + ${comment.user.cognome} + ': '+ ${comment.text}"
+								th:style="'color:grey'"></div>
+						</li>
+					</ul>
+				</td>
+				<td>
 					<form method="POST"
 						th:if="(${loggedUser.id} == ${task.user.id}) and ${!task.completed}"
 						th:action="'/projects/' + ${project.id} + '/tasks/' + ${task.id} + '/complete'">
@@ -94,6 +104,12 @@
 					<form method="GET" th:if="${loggedUser.id} == ${task.user.id}"
 						th:action="'/projects/' + ${project.id} + '/tasks/' + ${task.id} + '/tags/edit'">
 						<button type="submit" name="submit" value="value">EDIT TAGS</button>
+					</form>
+				</td>
+				<td>
+					<form method="GET" 
+						th:action="'/projects/' + ${project.id} + '/tasks/' + ${task.id} + '/comments/add'">
+						<button type="submit" name="submit" value="value">ADD COMMENT</button>
 					</form>
 				</td>
 				<td>
