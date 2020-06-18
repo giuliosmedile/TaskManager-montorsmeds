@@ -52,7 +52,7 @@ public class Task {
 	@ManyToMany
 	private List<Tag> tags;
 	
-	@OneToMany(mappedBy="task", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@OneToMany(mappedBy="task", cascade = {CascadeType.ALL})
 	private List<Commento> commenti;
 	
 

@@ -40,7 +40,7 @@ public class User {
 	@ManyToMany(mappedBy = "utentiCondivisi")
 	private List<Project> visibleProjects;
 	
-	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@OneToMany(mappedBy="user", cascade = {CascadeType.ALL})
 	private List<Commento> commenti;
 
 	public User() {
