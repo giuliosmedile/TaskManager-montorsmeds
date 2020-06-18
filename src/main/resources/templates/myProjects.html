@@ -13,7 +13,7 @@
 					<th>Name</th>
 					<th>Description</th>
 					<th>Update</th>
-					<th th:if="${title} == 'My Projects'">Delete</th>
+					<th th:if="${title} == 'My Projects' OR ${title} == 'All Projects'">Delete</th>
 				</tr>
 			</thead>
 
@@ -29,7 +29,7 @@
 						</form>
 					</td>
 					<td>
-						<form method="POST" th:if="${project.proprietario.id}==${loggedUser.id}"
+						<form method="POST" th:if="${project.proprietario.id}==${loggedUser.id} OR ${title} == 'All Projects'"
 							th:action="'/projects/' + ${project.id} + '/delete'">
 							<button type="submit" name="submit" value="value">DELETE</button>
 						</form>

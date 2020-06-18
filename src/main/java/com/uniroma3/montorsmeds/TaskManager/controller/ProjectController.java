@@ -134,7 +134,7 @@ public class ProjectController {
 	public String removeProject(Model model, @PathVariable Long projectId) {
 		this.projectService.deleteProject(this.projectService.getProject(projectId));
 		
-		return "redirect:/projects";
+		return "redirect:/home";
 	}
 	
 	@RequestMapping(value = {"/projects/{projectId}/share"}, method = RequestMethod.GET)

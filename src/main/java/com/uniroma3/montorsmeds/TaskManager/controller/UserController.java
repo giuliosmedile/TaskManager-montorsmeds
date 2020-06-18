@@ -1,5 +1,6 @@
 package com.uniroma3.montorsmeds.TaskManager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.uniroma3.montorsmeds.TaskManager.controller.session.SessionData;
 import com.uniroma3.montorsmeds.TaskManager.controller.validation.UserValidator;
 import com.uniroma3.montorsmeds.TaskManager.model.Credentials;
+import com.uniroma3.montorsmeds.TaskManager.model.Project;
 import com.uniroma3.montorsmeds.TaskManager.model.User;
 import com.uniroma3.montorsmeds.TaskManager.service.CredentialsService;
+import com.uniroma3.montorsmeds.TaskManager.service.ProjectService;
 import com.uniroma3.montorsmeds.TaskManager.service.UserService;
 
 @Controller
@@ -25,20 +28,23 @@ public class UserController {
 
 	@Autowired
 	SessionData sessionData;
-	
+
 	@Autowired
 	CredentialsService credentialsService;
 
 	@Autowired
 	UserService userService;
-	
+
+	@Autowired
+	ProjectService projectService;
+
 	@Autowired
 	UserValidator userValidator;
-	
+
 	public UserController() {
-		
+
 	}
-	
+
 	@RequestMapping(value = {"/home"}, method = RequestMethod.GET)
 	public String home(Model model) {
 		User loggedUser = sessionData.getLoggedUser();
@@ -47,7 +53,7 @@ public class UserController {
 		model.addAttribute("credentials", credentials);
 		return "home";
 	}
-	
+
 	@RequestMapping(value = {"/users/me"}, method = RequestMethod.GET)
 	public String me(Model model) {
 		User loggedUser = sessionData.getLoggedUser();
@@ -56,14 +62,14 @@ public class UserController {
 		model.addAttribute("credentials", credentials);
 		return "userProfile";
 	}
-	
+
 	@RequestMapping(value = {"/admin"}, method = RequestMethod.GET)
 	public String admin(Model model) {
 		User loggedUser = sessionData.getLoggedUser();
 		model.addAttribute("user", loggedUser);
 		return "admin";
 	}
-	
+
 	@RequestMapping(value = {"/admin/users"}, method = RequestMethod.GET)
 	public String usersList(Model model) {
 		User loggedUser = sessionData.getLoggedUser();
@@ -72,25 +78,25 @@ public class UserController {
 		model.addAttribute("credentialsList", allCredentials);
 		return "allUsers";
 	}
-	
+
 	@RequestMapping(value = {"/admin/users/{username}/delete"}, method = RequestMethod.POST)
 	public String removeUser(Model model, @PathVariable String username) {
 		this.credentialsService.deleteCredentials(username);
-		
+
 		return "redirect:/admin/users";
 	}
-	
+
 	@RequestMapping(value = {"/users/me/updateProfile"}, method = RequestMethod.GET)
 	public String showUserUpdateForm(Model model) {
 		model.addAttribute("updateUserForm", new User());
 		model.addAttribute("loggedUser", this.sessionData.getLoggedUser());
 		return "updateProfile";
 	}
-	
+
 	@RequestMapping(value = {"/users/me/updateProfile"}, method = RequestMethod.POST)
 	public String updateUser(@Valid @ModelAttribute("updateUserForm") User user, BindingResult userBindingResult, Model model) {
 		User loggedUser = sessionData.getLoggedUser();
-		
+
 		this.userValidator.validate(user, userBindingResult);
 		if(!userBindingResult.hasErrors()) {
 			user.setId(loggedUser.getId());
@@ -99,7 +105,27 @@ public class UserController {
 			model.addAttribute("loggedUser", sessionData.getLoggedUser());
 			return "redirect:/users/me";
 		}
-		
+
 		return "updateProfile";
 	}
+
+	@RequestMapping(value = {"/admin/projects"}, method = RequestMethod.GET)
+	public String allProjects(Model model) {
+
+		List<Project> allProjects = new ArrayList<>();
+		List<User> allUsers = this.userService.getAllUsers();
+		for (User user : allUsers) {
+			List<Project> projects = this.projectService.getAllProjectsFromUser(user);
+			allProjects.addAll(projects);
+		}
+		
+		model.addAttribute("projectList", allProjects);
+		model.addAttribute("loggedUser", this.sessionData.getLoggedUser());
+		model.addAttribute("title", "All Projects");
+		
+		return "myProjects";
+
+	}
+
+
 }
