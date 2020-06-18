@@ -81,12 +81,12 @@ class TaskTests {
 		
 		long id = task.getId();
 		
-		assertFalse(taskService.getTask(id).isCompleted());
+		assertFalse(taskService.getTask(id).getCompleted());
 		
 		task = taskService.setCompleted(task);
 		
 		assertNotNull(taskService.getTask(id));
-		assertTrue(taskService.getTask(id).isCompleted());
+		assertTrue(taskService.getTask(id).getCompleted());
 		
 	}
 	

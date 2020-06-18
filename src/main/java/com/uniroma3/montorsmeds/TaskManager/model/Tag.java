@@ -3,7 +3,9 @@ package com.uniroma3.montorsmeds.TaskManager.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,7 +26,7 @@ public class Tag {
 	
 	private String descrizione;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	private List<Task> tasks;
 	
 	public Tag() {

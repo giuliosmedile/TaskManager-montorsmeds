@@ -141,6 +141,7 @@ public class TaskController {
 	@RequestMapping(value = {"/projects/{projectId}/tasks/{taskId}/complete"}, method = RequestMethod.POST)
 	public String completeTask(Model model, @PathVariable Long projectId, @PathVariable Long taskId) {
 		this.taskService.setCompleted(this.taskService.getTask(taskId));
+		this.projectService.saveProject(this.projectService.getProject(projectId));
 		return "redirect:/projects/" + projectId;
 	}
 }

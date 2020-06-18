@@ -46,7 +46,7 @@ public class Task {
 	
 	private boolean completed;
 	
-	@ManyToMany(mappedBy = "tasks", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@ManyToMany
 	private List<Tag> tags;
 
 	public Task() {
@@ -128,7 +128,7 @@ public class Task {
 		this.project = project;
 	}
 
-	public boolean isCompleted() {
+	public boolean getCompleted() {
 		return completed;
 	}
 
