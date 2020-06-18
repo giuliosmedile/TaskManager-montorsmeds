@@ -36,4 +36,8 @@ public class TagService {
 		this.tagRepository.save(tag);
 	}
 	
+	@Transactional
+	public void deleteTag(Tag tag) {
+		this.tagRepository.delete(tag);
+	}
 }

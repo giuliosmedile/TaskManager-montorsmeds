@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tags")
@@ -40,6 +41,13 @@ public class Tag {
 		this.descrizione = descrizione;
 	}
 
+	public void addTask(Task task) {
+		this.tasks.add(task);
+	}
+	
+	public void removeTask(Task task){
+		this.tasks.remove(task);
+	}
 	public Long getId() {
 		return id;
 	}
@@ -127,6 +135,5 @@ public class Tag {
 	public String toString() {
 		return "Tag [id=" + id + ", nome=" + nome + ", colore=" + colore + ", descrizione=" + descrizione + "]";
 	}
-	
 	
 }

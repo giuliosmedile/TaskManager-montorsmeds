@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.Valid;
 
 @Entity
 @Table(name = "Projects")
@@ -80,6 +81,14 @@ public class Project {
 	
 	public void removeTask(Task task) {
 		this.tasks.remove(task);
+	}
+	
+	public void addTag(Tag tag) {
+		this.tags.add(tag);
+	}	
+	
+	public void removeTag(Tag tag) {
+		this.tags.remove(tag);
 	}
 	// ==================================================================
 	// ======================== GETTER E SETTER =========================
@@ -217,9 +226,4 @@ public class Project {
 				+ dataCreazione + ", dataUltimoAggiornamento=" + dataUltimoAggiornamento + ", proprietario="
 				+ proprietario + "]";
 	}
-
-	
-
-
-	
 }

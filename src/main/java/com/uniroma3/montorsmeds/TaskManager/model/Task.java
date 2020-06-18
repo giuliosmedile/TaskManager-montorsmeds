@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.Valid;
 
 @Entity
 @Table(name = "Tasks")
@@ -48,6 +50,7 @@ public class Task {
 	
 	@ManyToMany
 	private List<Tag> tags;
+	
 
 	public Task() {
 		this.tags = new ArrayList<>();
@@ -63,7 +66,14 @@ public class Task {
 	}
 
 
-
+	public void addTag(Tag tag) {
+		this.tags.add(tag);
+	}
+	
+	public void removeTag(Tag tag) {
+		this.tags.remove(tag);
+	}
+	
 	// ==================================================================
 	// ======================== GETTER E SETTER =========================
 	// ==================================================================
@@ -134,6 +144,14 @@ public class Task {
 
 	public void setCompleted() {
 		this.completed = true;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 	@PrePersist
