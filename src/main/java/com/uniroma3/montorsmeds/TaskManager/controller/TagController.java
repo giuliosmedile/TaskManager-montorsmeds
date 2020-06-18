@@ -1,5 +1,8 @@
 package com.uniroma3.montorsmeds.TaskManager.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,18 +81,32 @@ public class TagController {
 	@RequestMapping(value = {"/projects/{projectId}/tasks/{taskId}/tags/edit"}, method = RequestMethod.GET)
 	public String addTagToTaskForm(Model model, @PathVariable Long projectId, @PathVariable Long taskId) {
 		User loggedUser = sessionData.getLoggedUser();
+		Project project = this.projectService.getProject(projectId);
+		Task task = this.taskService.getTask(taskId);
+		List<Tag> tags = new ArrayList<>();
+		for (Tag t : project.getTags()) {
+			if (!task.getTags().contains(t)) {
+				tags.add(t);
+			}
+		}
+		
 		model.addAttribute("loggedUser", loggedUser);
 		model.addAttribute("tagToTaskForm", new Tag());
-		model.addAttribute("project", this.projectService.getProject(projectId));
-		model.addAttribute("task", this.taskService.getTask(taskId));
+		model.addAttribute("project", project);
+		
+		model.addAttribute("task", task);
+		model.addAttribute("tags", tags);
 		return "addTagToTask";
 	}
 	
-	@RequestMapping(value = {"/projects/{projectId}/tasks/{taskId}/tags/edit"}, method = RequestMethod.POST)
-	public String createTagToTask(@Valid @ModelAttribute("tagToTaskForm") Tag tag, Model model, @PathVariable Long projectId, @PathVariable Long taskId) {
+	@RequestMapping(value = {"/projects/{projectId}/tasks/{taskId}/tags/{tagId}/edit"}, method = RequestMethod.POST)
+	public String createTagToTask(Model model, @PathVariable Long projectId, @PathVariable Long taskId, @PathVariable Long tagId) {
 		User loggedUser = sessionData.getLoggedUser();
 		Task task = this.taskService.getTask(taskId);
 		Project project = this.projectService.getProject(projectId);
+		Tag tag = this.tagService.findTagById(tagId);
+
+		
 		task.addTag(tag);
 		tag.addTask(task);
 		this.tagService.saveTag(tag);

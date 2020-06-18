@@ -94,7 +94,6 @@ public class Tag {
 		int result = 1;
 		result = prime * result + ((colore == null) ? 0 : colore.hashCode());
 		result = prime * result + ((descrizione == null) ? 0 : descrizione.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
@@ -117,11 +116,6 @@ public class Tag {
 			if (other.descrizione != null)
 				return false;
 		} else if (!descrizione.equals(other.descrizione))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
